@@ -41,18 +41,70 @@ describe('POST /gpu', () => {
             });
     });
 
-    it('should fail to create a gpu with missing fields', (done) => {
+    it('should fail to create a gpu with missing brand', (done) => {
         chai.request(app)
             .post('/gpu')
             .send({ 
                 brand: '', 
                 model: 'RTX 4080',
-                vram: 16
-            }) // Falta el campo price y la brand está vacía
+                vram: 16,
+                price: 1200
+            })
             .end((err, res) => {
                 expect(res).to.have.status(400); // Espera error 400 (petición incorrecta)
                 expect(res.body.status).to.equal('bad-request');
                 expect(res.body.message).to.equal('Brand of gpu is obligatory'); // El cuerpo debe tener un mensaje de error
+                done();
+            });
+    });
+
+    it('should fail to create a gpu with missing model', (done) => {
+        chai.request(app)
+            .post('/gpu')
+            .send({ 
+                brand: 'AORUS', 
+                model: '',
+                vram: 16,
+                price: 700
+            }) 
+            .end((err, res) => {
+                expect(res).to.have.status(400); // Espera error 400 (petición incorrecta)
+                expect(res.body.status).to.equal('bad-request');
+                expect(res.body.message).to.equal('Model is necessary'); // El cuerpo debe tener un mensaje de error
+                done();
+            });
+    });
+
+    it('should fail to create a gpu with missing vram', (done) => {
+        chai.request(app)
+            .post('/gpu')
+            .send({ 
+                brand: 'AORUS', 
+                model: 'RTX 4070',
+                vram: '',
+                price: 700
+            }) 
+            .end((err, res) => {
+                expect(res).to.have.status(400); // Espera error 400 (petición incorrecta)
+                expect(res.body.status).to.equal('bad-request');
+                expect(res.body.message).to.equal('VRAM is necessary'); // El cuerpo debe tener un mensaje de error
+                done();
+            });
+    });
+
+    it('should fail to create a gpu with missing price', (done) => {
+        chai.request(app)
+            .post('/gpu')
+            .send({ 
+                brand: 'AORUS', 
+                model: 'RTX 4070',
+                vram: 16,
+                price: ''
+            }) 
+            .end((err, res) => {
+                expect(res).to.have.status(400); // Espera error 400 (petición incorrecta)
+                expect(res.body.status).to.equal('bad-request');
+                expect(res.body.message).to.equal('Price is necessary'); // El cuerpo debe tener un mensaje de error
                 done();
             });
     });

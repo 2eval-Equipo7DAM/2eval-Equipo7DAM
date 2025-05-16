@@ -38,6 +38,5 @@ const db = knex({
         });  
         afterAll(async () => {
     await db.destroy();
-});
     });
-    
+});
