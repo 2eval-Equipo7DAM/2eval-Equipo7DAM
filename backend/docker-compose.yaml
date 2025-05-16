@@ -3,7 +3,7 @@ name: gpu
 services:
   db:
     image: mariadb:11.3.2
-    container_name: cities-db-dev
+    container_name: gpu-db-dev
     environment:
       MYSQL_USER: 'user'
       MYSQL_PASSWORD: 'password'
