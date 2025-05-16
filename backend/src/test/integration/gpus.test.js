@@ -36,7 +36,7 @@ describe('POST /gpu', () => {
                 expect(res.body).to.have.property('brand');
                 expect(res.body).to.have.property('model');
                 expect(res.body).to.have.property('vram'); // El objeto devuelto tiene el nombre correcto
-                expect(res.body).to.have.property('year');
+                expect(res.body).to.have.property('price');
                 done();
             });
     });
@@ -52,7 +52,7 @@ describe('POST /gpu', () => {
             .end((err, res) => {
                 expect(res).to.have.status(400); // Espera error 400 (petición incorrecta)
                 expect(res.body.status).to.equal('bad-request');
-                expect(res.body).to.have.property('brand and price must be filled'); // El cuerpo debe tener un mensaje de error
+                expect(res.body.message).to.equal('Brand of gpu is obligatory'); // El cuerpo debe tener un mensaje de error
                 done();
             });
     });
@@ -61,7 +61,7 @@ describe('POST /gpu', () => {
 describe('PUT /gpu/:id', () => {
     it('should update a gpu (success)', (done) => {
         chai.request(app)
-            .put('/gpu/24')
+            .put('/gpu/30')
             .send({ 
                 brand: 'Updated GPU',
                 model: 'RTX UPDATED', 
@@ -88,9 +88,8 @@ describe('PUT /gpu/:id', () => {
                 price: 0
             })
             .end((err, res) => {
-                expect(res).to.have.status(400); // Espera error 404 (no encontrado)
-                expect(res.body.status).to.equal('bad-request');
-                expect(res.body).to.have.property('Videogame not found'); // El cuerpo debe tener un mensaje de error
+                expect(res).to.have.status(404); // Espera error 404 (no encontrado)
+                expect(res.body.error).to.equal('GPU not found'); // El cuerpo debe tener un mensaje de error
                 done();
             });
     });
@@ -99,7 +98,7 @@ describe('PUT /gpu/:id', () => {
 describe('DELETE /gpu/:id', () => {
     it('should delete a GPU (success)', (done) => {
         chai.request(app)
-            .delete('/gpu/24')
+            .delete('/gpu/53')
             .end((err, res) => {
                 expect(res).to.have.status(200); // Espera éxito
                 expect(res.body).to.have.property('message');
@@ -111,9 +110,8 @@ describe('DELETE /gpu/:id', () => {
         chai.request(app)
             .delete('/gpu/9999') // ID que no existe
             .end((err, res) => {
-                expect(res).to.have.status(404); // Espera error 404
-                expect(res.body.status).to.equal('bad-request');
-                expect(res.body).to.have.property('GPU not found'); // El cuerpo debe tener un mensaje de error
+                expect(res).to.have.status(404); // Espera error 404 (no encontrado)
+                expect(res.body.error).to.equal('GPU not found'); // El cuerpo debe tener un mensaje de error
                 done();
             });
     });
