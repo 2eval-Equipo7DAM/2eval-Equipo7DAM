@@ -28,7 +28,7 @@ const dbUser = knex ({
 
 //CRUD
 //Mostrar todas las GPUs disponibles
-app.get('/gpu0', async (req, res) => {
+app.get('/gpu', async (req, res) => {
     const gpus = await db('GPU').select('*');
     res.status(200).json(gpus);
 });
