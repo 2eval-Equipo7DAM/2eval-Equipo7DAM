@@ -36,7 +36,7 @@ const getGpuByName = async (req, res) => {
         return;
     }
 
-     if (req.body.price <= 0) {
+     if (req.body.price <= 0 || req.body.price === '') {
         res.status(400).json({
             status: 'bad-request',
             message: 'Price is necessary'
