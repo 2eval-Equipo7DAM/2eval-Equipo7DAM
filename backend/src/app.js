@@ -21,7 +21,7 @@ const db = knex ({
 const dbUser = knex ({
     client: 'sqlite3',
     connection: {
-        filename: 'users.db'                    
+        filename: 'users.db'                  
     },
     useNullAsDefault: true
 });
