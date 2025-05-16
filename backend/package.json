@@ -1,7 +1,7 @@
 {
-    "name": "videogames",
+    "name": "gpus-backend",
     "version": "0.1",
-    "description": "Videogames application",
+    "description": "GPU application",
     "scripts": {
       "start": "node src/app.js",
       "prestart": "",
