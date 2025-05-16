@@ -3,35 +3,36 @@ import { element, icon, td } from '../util/documentUtil.js';
 import { notifySuccess } from '../util/warningUtil.js';
 
 
-window.readVideogames = function() {
-    axios.get('http://localhost:8080/videogames')
+window.readGpus = function() {
+    axios.get('http://localhost:8080/gpu')
         .then((response) => {
-            const videogameList = response.data;
-            const videogameTable = element('tableBody');
+            const gpuList = response.data;
+            const gpuTable = element('tableBody');
 
-            videogameList.forEach(videogame => {
+            gpuList.forEach(gpu => {
                 const row =  document.createElement('tr');
-                row.id = 'videogame-' + videogame.id;
-                row.innerHTML = td(videogame.name) + 
-                                td(videogame.type) + 
-                                td (videogame.year) + 
-                                '<a class="btn btn-info" href="/videogames/modify.html?id='+ videogame.id+'">' +
+                row.id = 'gpu-' + gpu.id;
+                row.innerHTML = td(gpu.brand) + 
+                                td(gpu.model) + 
+                                td(gpu.vram) + 
+                                td (gpu.price) + 
+                                '<a class="btn btn-info" href="/gpus/modify.html?id='+ gpu.id+'">' +
                                 icon('edit') +
-                                '</a> ' +  '<a class="btn btn-danger" href="javascript:removeVideogame('+ videogame.id + ')">' + 
+                                '</a> ' +  '<a class="btn btn-danger" href="javascript:removeGpu('+ gpu.id + ')">' + 
                                 icon('delete') +
                                 '</a>';
-                videogameTable.appendChild(row);
+                gpuTable.appendChild(row);
             })
         });
 };
 
-window.removeVideogame = function(id) {
-    if(confirm('¿Seguro que deseas eliminar este videogame?')){
-    axios.delete('http://localhost:8080/videogames/' + id)
+window.removeGpu = function(id) {
+    if(confirm('Are you sure you want to delete this GPU?')){
+    axios.delete('http://localhost:8080/gpu/' + id)
         .then((response) => {
-            if (response.status == 204){
-                notifySuccess('Videogame eliminado satisfactoriamente.');
-                element('videogame-' + id).remove();
+            if (response.status == 200){
+                notifySuccess('GPU deleted successfully.');
+                element('gpu-' + id).remove();
             }
         });
     }
