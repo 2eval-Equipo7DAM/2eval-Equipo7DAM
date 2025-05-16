@@ -8,6 +8,17 @@ const db = knex ({
     useNullAsDefault: true
 });
 
+// const db = knex ({
+//     client: ',mysql',
+//     connection: {
+//         host:'localhost',
+//         port: 3306, 
+//         user:'user',
+//         password: "password",
+//         database: 'hardware.db'                
+//     },
+//     useNullAsDefault: true
+// });
 
 const findGpu = (async () => {
     const gpus = await db('gpu').select('*');
