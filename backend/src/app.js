@@ -1,7 +1,6 @@
 //Se cargan las librerias
 const express = require('express');
 const cors = require('cors');
-const knex = require('knex');
 const gpu = require('./route/gpu');
 
 //Iniciamos la aplicación (Backend)
