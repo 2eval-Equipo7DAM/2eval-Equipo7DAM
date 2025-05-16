@@ -13,7 +13,7 @@ app.use(express.json());
 const db = knex ({
     client: 'sqlite3',
     connection: {
-        filename: 'ardware.db'                    
+        filename: 'hardware.db'                    
     },
     useNullAsDefault: true
 });
@@ -28,7 +28,7 @@ const dbUser = knex ({
 
 //CRUD
 //Mostrar todas las GPUs disponibles
-app.get('/gpu', async (req, res) => {
+app.get('/gpu0', async (req, res) => {
     const gpus = await db('GPU').select('*');
     res.status(200).json(gpus);
 });
@@ -68,45 +68,6 @@ app.delete('/gpu/:gpuId', async (req, res) => {
 });
 
 //-----------------------------------------------------------------------------//
-
-//Mostrar todos los usuarios disponibles
-app.get('/users', async(req, res) => {
-    const users = await dbUser('users').select('*');
-    res.status(200).json(users);
-});
-
-
-//TODO Mostrar usuario por ID En URL
-app.get('/users/:userId', async(req, res) => {
-    const user = await dbUser('users').select('*').where({ id: req.params.userId }).first();
-    res.status(200).json(user); // ---> Se da el OK de la conexión a la BBDD
-});
-
-//Añadir un nuevo usuario
-app.post('/users', async (req, res) => {
-    await dbUser('users').insert({
-        name: req.body.name,    
-        password: req.body.password
-    });
-
-    res.status(201).json({}); // ---> Aquí damos el OK al registrar el nuevo juego. No devuelve nada
-});
-
-//Modificar un user existente por ID
-app.put('/users/:userId', async (req, res) => {
-    await dbUser('users').update({
-        name: req.body.name,
-        password: req.body.password
-    }).where({id: req.params.userId});
-
-    res.status(204).json({});
-});
-
-app.delete('/users/:userId', async(req,res) =>{
-    await dbUser('users').del().where({ id: req.params.userId });
-
-    res.status(204).json({});
-});
 
 
 app.listen(8080, () => {
