@@ -1,24 +1,24 @@
 const knex = require('knex');
 
-const db = knex ({
-    client: 'sqlite3',
-    connection: {
-        filename: 'hardware.db'                    
-    },
-    useNullAsDefault: true
-});
-
 // const db = knex ({
-//     client: ',mysql',
+//     client: 'sqlite3',
 //     connection: {
-//         host:'localhost',
-//         port: 3306, 
-//         user:'user',
-//         password: "password",
-//         database: 'hardware.db'                
+//         filename: 'hardware.db'                    
 //     },
 //     useNullAsDefault: true
 // });
+
+const db = knex ({
+    client: ',mysql',
+    connection: {
+        host:'localhost',
+        port: 3306, 
+        user:'user',
+        password: "password",
+        database: 'hardware.db'                
+    },
+    useNullAsDefault: true
+});
 
 const findGpu = (async () => {
     const gpus = await db('gpu').select('*');
